@@ -7,16 +7,10 @@
 
 import Foundation
 
-public enum NetworkErrorA: LocalizedError {
+public enum NetworkError: LocalizedError {
     case badRequest
     case unknown
     case serverError(Error)
     case decoding(Error)
     case custom(String)
-}
-
-enum NetworkError: Error {
-    case badURL
-    case decodingError
-    case noData
 }

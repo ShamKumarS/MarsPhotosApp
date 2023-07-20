@@ -9,12 +9,7 @@ import Foundation
 
 struct Constants {
     
-    
-    struct Urls {
-        static func getViehiclesData(with category: String, at currentPage: Int) -> String {
-            "https://api.nasa.gov/mars-photos/api/v1/rovers/\(category)/photos?sol=1000&api_key=mGlfgHOAnNbTMwWTqf1t7mK20Nm7eNkz8fWyFjBZ&page=\(currentPage)"
-        }
-    }
+    static let apiKey = "mGlfgHOAnNbTMwWTqf1t7mK20Nm7eNkz8fWyFjBZ"
 }
 
 enum Tabs: String {

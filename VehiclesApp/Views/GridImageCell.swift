@@ -9,6 +9,15 @@ import SwiftUI
 
 struct GridImageCell: View {
     var url: String
+    let width: CGFloat
+    let height: CGFloat
+    
+    init(url: String, width: CGFloat = 100, height: CGFloat = 100) {
+        self.url = url
+        self.width = width
+        self.height = height
+    }
+    
     var body: some View {
         AsyncImage(url: URL(string: url)) { phase in
             switch phase {
@@ -17,7 +26,7 @@ struct GridImageCell: View {
                 case .success(let image):
                     image.resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: 100, height: 100)
+                        .frame(width: width, height: height)
                         .cornerRadius(20)
                         .shadow(radius: 20)
                 case .failure:

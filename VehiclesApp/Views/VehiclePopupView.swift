@@ -16,24 +16,20 @@ struct VehiclePopupView: View {
         VStack(spacing: 16) {
             HStack {
                 Spacer()
-                AsyncImage(url: URL(string: vehicle.imgSrc))
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 300, height: 300)
-                    .cornerRadius(20)
-                    .shadow(radius: 20)
+                GridImageCell(url: vehicle.imgSrc, width: 300, height: 300)
                 Spacer()
             }
             
-            Text("Date Taken: \(vehicle.earthDate)")
+            Text("\(LocalizedKey.dateTaken.string) \(vehicle.earthDate)")
                 .font(.headline)
             
-            Text("Vehicle: \(vehicle.rover.name)")
+            Text("\(LocalizedKey.vehicle.string) \(vehicle.rover.name)")
                 .font(.headline)
             
-            Text("Launch Date: \(vehicle.rover.launchDate)")
+            Text("\(LocalizedKey.launchDate.string) \(vehicle.rover.launchDate)")
                 .font(.subheadline)
             
-            Text("Landing Date: \(vehicle.rover.landingDate)")
+            Text("\(LocalizedKey.landingDate.string) \(vehicle.rover.landingDate)")
                 .font(.subheadline)
         }
         .padding()
@@ -42,6 +38,6 @@ struct VehiclePopupView: View {
         .padding()
         .offset(y: isPopupVisible ? 0 : UIScreen.main.bounds.height)
         .animation(.spring(), value: isPopupVisible)
-        .opacity(isPopupVisible ? 1 : 0)
+//        .opacity(isPopupVisible ? 1 : 0)
     }
 }

@@ -9,12 +9,27 @@ import Foundation
 
 class VehiclesViewModel: ObservableObject {
     
+    // MARK: - Properties
+    
     @Published var photos: [Vehicle] = []
     @Published var errorMessage: String? = nil
     @Published var error = false
+    @Published var selectedCamera: CameraType = .none
+    @Published var isDropdownVisible: Bool = false
+    @Published var selectedVehicle: Vehicle?
+    @Published var isPopupVisible: Bool = false
     
     var currentPage: Int = 1
     var totalPages: Int = 1
+    let vehicleService: VehicleServiceType!
+    
+    // MARK: - Initializer Methods
+    
+    init() {
+        vehicleService = VehicleService(client: NetworkClient())
+    }
+    
+    // MARK: - Instance Methods
     
     func shouldLoadMoreData(_ photo: Vehicle) -> Bool {
         guard let lastIndex = photos.lastIndex(where: { $0.id == photo.id }) else {
@@ -26,25 +41,52 @@ class VehiclesViewModel: ObservableObject {
         return lastIndex >= photos.count - threshold
     }
     
+    func loadData() {
+        if selectedCamera == .none {
+            
+        }
+    }
+    
     func loadData(for category: String) {
         guard currentPage <= totalPages else { return }
-        WebService().getVehicles(with: category, at: currentPage) { result in
+        vehicleService.getVehicles(with: category, at: currentPage) { result in
             switch result {
                 case .success(let response):
-                    print("Response for \(self.currentPage): \(response?.photos.count ?? 0)")
-                    print(response?.photos ?? "Empty")
+                    print("Response for \(self.currentPage): \(response.photos.count)")
+                    print(response.photos)
                     DispatchQueue.main.async {
-                        if let vehicles = response?.photos {
-                            self.photos.append(contentsOf: vehicles)
-                        }
-                        self.totalPages = response?.totalPages ?? 1
+                        self.photos.append(contentsOf: response.photos)
+                        self.totalPages = response.totalPages
                         self.currentPage += 1
                     }
                 case .failure(let error):
                     print("Failed due to: \(error.localizedDescription)")
                     DispatchQueue.main.async {
                         self.error = true
-                        self.errorMessage = "Something went wrong. Failed to load the data, try again later."
+                        self.errorMessage = LocalizedKey.networkErrorMessage.string
+                    }
+            }
+        }
+    }
+    
+    func loadFilteredData(for category: String) {
+        photos.removeAll()
+//        guard currentPage <= totalPages else { return }
+        vehicleService.getFilteredVehicles(with: category, cameraType: selectedCamera.rawValue, at: 1) { result in
+            switch result {
+                case .success(let response):
+                    print("Response for \(self.currentPage): \(response.photos.count)")
+                    print(response.photos)
+                    DispatchQueue.main.async {
+                        self.photos.append(contentsOf: response.photos)
+                        self.totalPages = response.totalPages
+                        self.currentPage += 1
+                    }
+                case .failure(let error):
+                    print("Failed due to: \(error.localizedDescription)")
+                    DispatchQueue.main.async {
+                        self.error = true
+                        self.errorMessage = LocalizedKey.networkErrorMessage.string
                     }
             }
         }

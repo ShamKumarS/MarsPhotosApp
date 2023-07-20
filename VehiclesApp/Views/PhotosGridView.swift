@@ -10,10 +10,6 @@ import SwiftUI
 struct PhotosGridView: View {
     
     @StateObject var viewModel = VehiclesViewModel()
-    @State private var selectedCamera: CameraType = .none
-    @State private var isDropdownVisible: Bool = false
-    @State private var selectedVehicle: Vehicle?
-    @State private var isPopupVisible: Bool = false
     
     let rover: Tabs
     
@@ -23,7 +19,7 @@ struct PhotosGridView: View {
                 grilView
                     .padding()
             }
-            .blur(radius: isPopupVisible ? 10 : 0)
+            .blur(radius: viewModel.isPopupVisible ? 10 : 0)
             .navigationBarTitle(rover.rawValue)
             .navigationBarItems(trailing: filterButton)
             .overlay(popupView)
@@ -31,14 +27,14 @@ struct PhotosGridView: View {
                 viewModel.loadData(for: rover.rawValue)
             }
             .onDisappear {
-                isPopupVisible = false
-                isDropdownVisible = false
+                viewModel.isPopupVisible = false
+                viewModel.isDropdownVisible = false
             }
         }
         .alert(isPresented: $viewModel.error) {
-            Alert(title: Text("Oops"),
+            Alert(title: Text(LocalizedKey.alert.string),
                   message: Text(viewModel.errorMessage ?? ""),
-                  dismissButton: .default(Text("OK"))
+                  dismissButton: .default(Text(LocalizedKey.ok.string))
             )
         }
     }
@@ -57,8 +53,8 @@ struct PhotosGridView: View {
                         }
                     }
                     .onTapGesture {
-                        isPopupVisible.toggle()
-                        selectedVehicle = photo
+                        viewModel.isPopupVisible.toggle()
+                        viewModel.selectedVehicle = photo
                     }
             }
         }
@@ -68,10 +64,16 @@ struct PhotosGridView: View {
         Menu {
             ForEach(CameraType.allCases, id: \.self) { camera in
                 Button(action: {
-                    self.selectedCamera = camera
+                    self.viewModel.selectedCamera = camera
+                    self.viewModel.loadFilteredData(for: rover.rawValue)
+                    //                    if camera == .none {
+                    //                        self.viewModel.currentPage = 1
+                    //                        self.viewModel.totalPages = 1
+                    //                        self.viewModel.photos.removeAll()
+                    //                    }
                 }) {
                     HStack {
-                        Image(systemName: camera == selectedCamera ? "checkmark.circle.fill" : "circle")
+                        Image(systemName: camera == viewModel.selectedCamera ? "checkmark.circle.fill" : "circle")
                         Text(camera.rawValue.uppercased())
                     }
                 }
@@ -82,17 +84,17 @@ struct PhotosGridView: View {
         }
         .menuStyle(BorderlessButtonMenuStyle())
         .onTapGesture {
-            isDropdownVisible.toggle()
+            viewModel.isDropdownVisible.toggle()
         }
     }
     
     private var popupView: some View {
         Group {
-            if let vehicle = selectedVehicle {
-                VehiclePopupView(vehicle: vehicle, isPopupVisible: $isPopupVisible)
+            if let vehicle = viewModel.selectedVehicle {
+                VehiclePopupView(vehicle: vehicle, isPopupVisible: $viewModel.isPopupVisible)
                     .onTapGesture {
                         withAnimation {
-                            isPopupVisible = false
+                            viewModel.isPopupVisible = false
                         }
                     }
             } else {
