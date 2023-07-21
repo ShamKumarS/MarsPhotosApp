@@ -14,41 +14,50 @@ struct PhotosGridView: View {
     let rover: Tabs
     
     var body: some View {
-        NavigationView {
-            ScrollView {
-                grilView
-                    .padding()
-            }
-            .blur(radius: viewModel.isPopupVisible ? 10 : 0)
-            .navigationBarTitle(rover.rawValue)
-            .navigationBarItems(trailing: filterButton)
-            .overlay(popupView)
-            .onAppear {
-                viewModel.loadData(for: rover.rawValue)
-            }
-            .onDisappear {
-                viewModel.isPopupVisible = false
-                viewModel.isDropdownVisible = false
+        ZStack {
+            if viewModel.isLoading {
+                ProgressView(LocalizedKey.loading.string)
+            } else {
+                ScrollView {
+                    grilView
+                        .padding()
+                }
+                .overlay(alignment: .bottom) {
+                    if viewModel.isFetching {
+                        ProgressView()
+                    }
+                }
             }
         }
-        .alert(isPresented: $viewModel.error) {
+        .blur(radius: viewModel.isPopupVisible ? 10 : 0)
+        .navigationBarItems(trailing: filterButton)
+        .navigationBarTitle(rover.rawValue)
+        .overlay(popupView)
+        .onAppear {
+            viewModel.reset()
+            viewModel.loadData(for: rover.rawValue)
+        }
+        .onDisappear {
+            viewModel.reset()
+        }
+        .onTapGesture {
+            viewModel.reset()
+        }
+        .alert(isPresented: $viewModel.hasError) {
             Alert(title: Text(LocalizedKey.alert.string),
-                  message: Text(viewModel.errorMessage ?? ""),
+                  message: Text(viewModel.error?.errorDescription ?? ""),
                   dismissButton: .default(Text(LocalizedKey.ok.string))
             )
         }
+        .embedInNavigation()
     }
     
     private var grilView: some View {
-        LazyVGrid(columns: [GridItem(.flexible()),
-                            GridItem(.flexible()),
-                            GridItem(.flexible())],
-                  spacing: 16) {
-            
-            ForEach(viewModel.photos) { photo in
+        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), spacing: 16) {
+            ForEach(viewModel.photos, id: \.id) { photo in
                 GridImageCell(url: photo.imgSrc)
                     .onAppear {
-                        if viewModel.shouldLoadMoreData(photo) {
+                        if viewModel.shouldLoadMoreData(photo) && !viewModel.isFetching {
                             viewModel.loadData(for: rover.rawValue)
                         }
                     }
@@ -64,13 +73,13 @@ struct PhotosGridView: View {
         Menu {
             ForEach(CameraType.allCases, id: \.self) { camera in
                 Button(action: {
-                    self.viewModel.selectedCamera = camera
-                    self.viewModel.loadFilteredData(for: rover.rawValue)
-                    //                    if camera == .none {
-                    //                        self.viewModel.currentPage = 1
-                    //                        self.viewModel.totalPages = 1
-                    //                        self.viewModel.photos.removeAll()
-                    //                    }
+                    viewModel.selectedCamera = camera
+                    viewModel.reset()
+                    if camera != .none {
+                        viewModel.loadFilteredData(for: rover.rawValue)
+                    } else {
+                        viewModel.loadData(for: rover.rawValue)
+                    }
                 }) {
                     HStack {
                         Image(systemName: camera == viewModel.selectedCamera ? "checkmark.circle.fill" : "circle")
@@ -82,6 +91,7 @@ struct PhotosGridView: View {
             Image(systemName: "line.horizontal.3.decrease.circle.fill")
                 .imageScale(.large)
         }
+        .disabled(viewModel.isPopupVisible)
         .menuStyle(BorderlessButtonMenuStyle())
         .onTapGesture {
             viewModel.isDropdownVisible.toggle()

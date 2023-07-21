@@ -17,11 +17,12 @@ enum LocalizedKey: String {
     
     // MARK: - Enum cases
     
-case ok
-case alert
-case dateTaken
-case vehicle
-case launchDate
-case landingDate
-case networkErrorMessage
+    case ok
+    case alert
+    case dateTaken
+    case vehicle
+    case launchDate
+    case landingDate
+    case networkErrorMessage
+    case loading
 }

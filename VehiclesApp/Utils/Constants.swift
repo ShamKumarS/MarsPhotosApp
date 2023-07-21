@@ -21,3 +21,7 @@ enum Tabs: String {
 enum CameraType: String, CaseIterable {
     case fhaz, rhaz, mast, chemcam, mahli, mardi, navcam, pancam, minites, none
 }
+
+enum VehiclesAppLoadState {
+    case empty, fetching, loading, finished, error
+}

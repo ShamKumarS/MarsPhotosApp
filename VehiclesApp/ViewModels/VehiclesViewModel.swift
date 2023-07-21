@@ -12,49 +12,56 @@ class VehiclesViewModel: ObservableObject {
     // MARK: - Properties
     
     @Published var photos: [Vehicle] = []
-    @Published var errorMessage: String? = nil
-    @Published var error = false
+    @Published var error: NetworkError?
+    @Published var hasError = false
     @Published var selectedCamera: CameraType = .none
-    @Published var isDropdownVisible: Bool = false
     @Published var selectedVehicle: Vehicle?
-    @Published var isPopupVisible: Bool = false
+    @Published var isPopupVisible = false
+    @Published var isDropdownVisible = false
+    @Published private(set) var viewState: VehiclesAppLoadState?
     
-    var currentPage: Int = 1
-    var totalPages: Int = 1
-    let vehicleService: VehicleServiceType!
+    private var currentPage = 1
+    private var totalPages = 1
+    private let vehicleService: VehicleServiceProtocol
+    
+    var isLoading: Bool {
+        viewState == .loading
+    }
+    
+    var isFetching: Bool {
+        viewState == .fetching
+    }
     
     // MARK: - Initializer Methods
     
-    init() {
-        vehicleService = VehicleService(client: NetworkClient())
+    init(apiService: VehicleServiceProtocol = VehicleService(client: NetworkClient())) {
+        vehicleService = apiService
     }
     
     // MARK: - Instance Methods
     
     func shouldLoadMoreData(_ photo: Vehicle) -> Bool {
-        guard let lastIndex = photos.lastIndex(where: { $0.id == photo.id }) else {
-            return false
-        }
-        
-        // Check if the current photo is within a certain threshold from the last photo
-        let threshold = 3
-        return lastIndex >= photos.count - threshold
+        photos.last?.id == photo.id
     }
     
-    func loadData() {
-        if selectedCamera == .none {
-            
-        }
+    func reset() {
+        photos.removeAll()
+        currentPage = 1
+        totalPages = 1
+        viewState = nil
+        isPopupVisible = false
+        isDropdownVisible = false
     }
-    
+
     func loadData(for category: String) {
         guard currentPage <= totalPages else { return }
+        viewState = photos.isEmpty ? .loading : .fetching
         vehicleService.getVehicles(with: category, at: currentPage) { result in
             switch result {
                 case .success(let response):
-                    print("Response for \(self.currentPage): \(response.photos.count)")
-                    print(response.photos)
+                    print("Response for \(self.currentPage): \(response.photos.count) \(self.photos.count)")
                     DispatchQueue.main.async {
+                        self.viewState = .finished
                         self.photos.append(contentsOf: response.photos)
                         self.totalPages = response.totalPages
                         self.currentPage += 1
@@ -62,22 +69,23 @@ class VehiclesViewModel: ObservableObject {
                 case .failure(let error):
                     print("Failed due to: \(error.localizedDescription)")
                     DispatchQueue.main.async {
-                        self.error = true
-                        self.errorMessage = LocalizedKey.networkErrorMessage.string
+                        self.viewState = .finished
+                        self.hasError = true
+                        self.error = error
                     }
             }
         }
     }
     
     func loadFilteredData(for category: String) {
-        photos.removeAll()
-//        guard currentPage <= totalPages else { return }
-        vehicleService.getFilteredVehicles(with: category, cameraType: selectedCamera.rawValue, at: 1) { result in
+        guard currentPage <= totalPages else { return }
+        viewState = photos.isEmpty ? .loading : .fetching
+        vehicleService.getFilteredVehicles(with: category, cameraType: selectedCamera.rawValue, at: currentPage) { result in
             switch result {
                 case .success(let response):
-                    print("Response for \(self.currentPage): \(response.photos.count)")
-                    print(response.photos)
+                    print("Response for \(self.currentPage): \(response.photos.count) \(self.photos.count)")
                     DispatchQueue.main.async {
+                        self.viewState = .finished
                         self.photos.append(contentsOf: response.photos)
                         self.totalPages = response.totalPages
                         self.currentPage += 1
@@ -85,8 +93,9 @@ class VehiclesViewModel: ObservableObject {
                 case .failure(let error):
                     print("Failed due to: \(error.localizedDescription)")
                     DispatchQueue.main.async {
-                        self.error = true
-                        self.errorMessage = LocalizedKey.networkErrorMessage.string
+                        self.viewState = .finished
+                        self.hasError = true
+                        self.error = error
                     }
             }
         }

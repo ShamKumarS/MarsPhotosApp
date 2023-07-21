@@ -19,25 +19,32 @@ class NetworkClient {
     func request<T: Codable>(endPoint: URL?, _ completion: @escaping (Result<T, NetworkError>) -> Void) {
         
         guard let endPoint else {
-            completion(.failure(.badRequest))
+            completion(.failure(NetworkError.invalidUrl))
             return
         }
         
         session.dataTask(with: endPoint) { data, response, error in
-            if let data = data {
-                do {
-                    let decoder = JSONDecoder()
-                    let object = try decoder.decode(T.self, from: data)
-                    
-                    completion(.success(object))
-                } catch {
-                    completion(.failure(.decoding(error)))
-                }
-            } else if let error = error {
-                completion(.failure(.serverError(error)))
-            } else {
-                completion(.failure(.unknown))
+            
+            guard let response = response as? HTTPURLResponse,
+                  (200...300) ~= response.statusCode else {
+                let statusCode = (response as! HTTPURLResponse).statusCode
+                completion(.failure(NetworkError.invalidStatusCode(statusCode: statusCode)))
+                return
             }
+            
+            guard let data else {
+                completion(.failure(NetworkError.custom(error: error!)))
+                return
+            }
+            
+            do {
+                let decoder = JSONDecoder()
+                let object = try decoder.decode(T.self, from: data)
+                completion(.success(object))
+            } catch {
+                completion(.failure(NetworkError.failedToDecode(error: error)))
+            }
+            
         }.resume()
     }
 }

@@ -9,28 +9,42 @@ import XCTest
 @testable import VehiclesApp
 
 final class VehiclesAppTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+   
+    // MARK: - Internal Methods
+    
+    func testVehiclesDataWithEmptyResult() {
+        
+        let mockAPI = MockVehicleAPI()
+        mockAPI.loadState = .empty
+        
+        let viewModel = VehiclesViewModel(apiService: mockAPI)
+        
+        viewModel.loadData(for: "curiosity")
+        
+        XCTAssertTrue(viewModel.photos.isEmpty, "Expected photos to be empty, but received some values")
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    func testVehiclesDataWithErrorResult() {
+        
+        let mockAPI = MockVehicleAPI()
+        mockAPI.loadState = .error
+        
+        let viewModel = VehiclesViewModel(apiService: mockAPI)
+        
+        viewModel.loadData(for: "curiosity")
+        
+        XCTAssertTrue(viewModel.hasError, "Expected to get an error, but received no error")
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    
+    func testVehiclesDataWithSuccess() {
+        
+        let mockAPI = MockVehicleAPI()
+        mockAPI.loadState = .finished
+        
+        let viewModel = VehiclesViewModel(apiService: mockAPI)
+        
+        viewModel.loadData(for: "curiosity")
+        
+        XCTAssertTrue(!viewModel.photos.isEmpty, "Expected photos data, but received empty")
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
 }

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct GridImageCell: View {
+    
     var url: String
     let width: CGFloat
     let height: CGFloat
@@ -29,10 +30,8 @@ struct GridImageCell: View {
                         .frame(width: width, height: height)
                         .cornerRadius(20)
                         .shadow(radius: 20)
-                case .failure:
-                    Image(systemName: "photo")
                 default:
-                    EmptyView()
+                    Image(systemName: "photo")
             }
         }
     }

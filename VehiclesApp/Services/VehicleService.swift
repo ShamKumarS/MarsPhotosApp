@@ -9,13 +9,13 @@ import Foundation
 
 typealias VehiclesResult = Result<VehicleResponse, NetworkError>
 
-protocol VehicleServiceType {
+protocol VehicleServiceProtocol {
     
     func getVehicles(with category: String, at pageNumber: Int, completion: @escaping (VehiclesResult) -> Void)
     func getFilteredVehicles(with category: String, cameraType camera: String, at pageNumber: Int, completion: @escaping (VehiclesResult) -> Void)
 }
 
-class VehicleService: BaseService, VehicleServiceType {
+class VehicleService: BaseService, VehicleServiceProtocol {
     
     // MARK: - Initializer Methods
     

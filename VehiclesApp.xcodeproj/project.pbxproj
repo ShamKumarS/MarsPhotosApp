@@ -42,9 +42,12 @@
 		4377E3032A6814FF00B46F6B /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4377E3022A6814FF00B46F6B /* BaseService.swift */; };
 		4377E3042A6814FF00B46F6B /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4377E3022A6814FF00B46F6B /* BaseService.swift */; };
 		4377E3052A6814FF00B46F6B /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4377E3022A6814FF00B46F6B /* BaseService.swift */; };
+		438C568E2A692F1E00FDAB64 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438C568D2A692F1E00FDAB64 /* View.swift */; };
 		43946A5B2A671A2500820320 /* GridImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43946A5A2A671A2500820320 /* GridImageCell.swift */; };
 		43946A5D2A671A5800820320 /* PhotosGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43946A5C2A671A5800820320 /* PhotosGridView.swift */; };
-		43946A5F2A67227700820320 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43946A5E2A67227700820320 /* DetailView.swift */; };
+		439E5ABA2A6A784900A3867D /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4377E2EA2A67FD1D00B46F6B /* NetworkError.swift */; };
+		439E5ABB2A6A784A00A3867D /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4377E2EA2A67FD1D00B46F6B /* NetworkError.swift */; };
+		43C3078D2A6A4DBF000284F4 /* MockVehicleAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C3078C2A6A4DBF000284F4 /* MockVehicleAPI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,9 +91,10 @@
 		4377E2F92A6803CF00B46F6B /* DevelopmentEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DevelopmentEnvironment.swift; sourceTree = "<group>"; };
 		4377E2FD2A68149600B46F6B /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
 		4377E3022A6814FF00B46F6B /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
+		438C568D2A692F1E00FDAB64 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		43946A5A2A671A2500820320 /* GridImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridImageCell.swift; sourceTree = "<group>"; };
 		43946A5C2A671A5800820320 /* PhotosGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosGridView.swift; sourceTree = "<group>"; };
-		43946A5E2A67227700820320 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		43C3078C2A6A4DBF000284F4 /* MockVehicleAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockVehicleAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +154,7 @@
 		434FE97D2A66774D00DF0936 /* VehiclesApp */ = {
 			isa = PBXGroup;
 			children = (
+				438C568C2A692F0300FDAB64 /* Extentions */,
 				434BEF752A691574006138A9 /* Resources */,
 				4377E3012A6814EC00B46F6B /* Services */,
 				4377E2F42A6803A100B46F6B /* Globals */,
@@ -177,6 +182,7 @@
 			isa = PBXGroup;
 			children = (
 				434FE98F2A66775100DF0936 /* VehiclesAppTests.swift */,
+				43C3078C2A6A4DBF000284F4 /* MockVehicleAPI.swift */,
 			);
 			path = VehiclesAppTests;
 			sourceTree = "<group>";
@@ -242,12 +248,19 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		438C568C2A692F0300FDAB64 /* Extentions */ = {
+			isa = PBXGroup;
+			children = (
+				438C568D2A692F1E00FDAB64 /* View.swift */,
+			);
+			path = Extentions;
+			sourceTree = "<group>";
+		};
 		43946A592A671A1300820320 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				43946A5A2A671A2500820320 /* GridImageCell.swift */,
 				434FE9802A66774D00DF0936 /* ContentView.swift */,
-				43946A5E2A67227700820320 /* DetailView.swift */,
 				43946A5C2A671A5800820320 /* PhotosGridView.swift */,
 				4377E2E82A67D0D200B46F6B /* VehiclePopupView.swift */,
 			);
@@ -386,9 +399,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				434FE9AE2A6677A700DF0936 /* VehicleService.swift in Sources */,
-				43946A5F2A67227700820320 /* DetailView.swift in Sources */,
 				43946A5B2A671A2500820320 /* GridImageCell.swift in Sources */,
 				434FE9BD2A6677F100DF0936 /* VehiclesViewModel.swift in Sources */,
+				438C568E2A692F1E00FDAB64 /* View.swift in Sources */,
 				434FE9B82A6677E300DF0936 /* VehicleModel.swift in Sources */,
 				434FE9812A66774D00DF0936 /* ContentView.swift in Sources */,
 				43946A5D2A671A5800820320 /* PhotosGridView.swift in Sources */,
@@ -409,6 +422,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				434FE9B92A6677E300DF0936 /* VehicleModel.swift in Sources */,
+				43C3078D2A6A4DBF000284F4 /* MockVehicleAPI.swift in Sources */,
 				434FE9AF2A6677A700DF0936 /* VehicleService.swift in Sources */,
 				434FE9902A66775100DF0936 /* VehiclesAppTests.swift in Sources */,
 				434FE9B42A6677C700DF0936 /* Constants.swift in Sources */,
@@ -416,6 +430,7 @@
 				4377E2F72A6803AA00B46F6B /* Endpoint.swift in Sources */,
 				434FE9BE2A6677F100DF0936 /* VehiclesViewModel.swift in Sources */,
 				4377E2FF2A68149600B46F6B /* NetworkClient.swift in Sources */,
+				439E5ABA2A6A784900A3867D /* NetworkError.swift in Sources */,
 				4377E3042A6814FF00B46F6B /* BaseService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -433,6 +448,7 @@
 				434FE99C2A66775100DF0936 /* VehiclesAppUITestsLaunchTests.swift in Sources */,
 				434FE9B52A6677C700DF0936 /* Constants.swift in Sources */,
 				4377E3052A6814FF00B46F6B /* BaseService.swift in Sources */,
+				439E5ABB2A6A784A00A3867D /* NetworkError.swift in Sources */,
 				4377E2FC2A6803CF00B46F6B /* DevelopmentEnvironment.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

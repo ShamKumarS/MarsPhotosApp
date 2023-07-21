@@ -38,6 +38,5 @@ struct VehiclePopupView: View {
         .padding()
         .offset(y: isPopupVisible ? 0 : UIScreen.main.bounds.height)
         .animation(.spring(), value: isPopupVisible)
-//        .opacity(isPopupVisible ? 1 : 0)
     }
 }

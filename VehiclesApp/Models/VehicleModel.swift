@@ -11,6 +11,10 @@ struct VehicleResponse: Codable {
     let photos: [Vehicle]
     let totalPages: Int = 10
     
+    init(photos: [Vehicle]) {
+        self.photos = photos
+    }
+    
     enum CodingKeys: String, CodingKey {
         case photos
     }
