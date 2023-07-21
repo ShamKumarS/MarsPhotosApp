@@ -1,0 +1,16 @@
+/* 
+  Localizable.strings
+  MarsPhotosApp
+
+  Created by BrainX IOS Dev on 7/20/23.
+  
+*/
+
+"ok" = "OK";
+"alert" = "Alert";
+"dateTaken" = "Date Taken: ";
+"vehicle" = "Vehicle: ";
+"launchDate" = "Launch Date: ";
+"landingDate" = "Landing Date: ";
+"networkErrorMessage" = "Something went wrong. Failed to load the data, try again later.";
+"loading" = "Loading";
