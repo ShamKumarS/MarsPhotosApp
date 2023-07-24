@@ -93,21 +93,5 @@ class MockMarsPhotosAPI: MarsPhotosServiceProtocol {
         } catch {
             completion(.failure(.custom(error: error)))
         }
-        
-//        switch loadState {
-//            case .error:
-//                completion(.failure(.networkError))
-//            case .empty:
-//                completion(.success(VehicleResponse(photos: [])))
-//            default:
-//                do {
-//                    let jsonData = Data(testJSON.utf8)
-//                    let decoder = JSONDecoder()
-//                    let response = try decoder.decode(VehicleResponse.self, from: jsonData)
-//                    completion(.success(response))
-//                } catch {
-//                    completion(.failure(.invalidData))
-//                }
-//        }
     }
 }

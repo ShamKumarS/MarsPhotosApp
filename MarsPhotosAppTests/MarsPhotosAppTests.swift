@@ -5,46 +5,82 @@
 //  Created by BrainX IOS Dev on 7/18/23.
 //
 
+import Combine
 import XCTest
 @testable import MarsPhotosApp
 
 final class MarsPhotosAppTests: XCTestCase {
    
+    // MARK: - Instance Properties
+    
+    private var cancellables = Set<AnyCancellable>()
+    var viewModel: MarsPhotosViewModel!
+    var mockAPI: MockMarsPhotosAPI!
+    
+    // MARK: - Overridden Methods
+    
+    override func setUp() {
+        super.setUp()
+        mockAPI = MockMarsPhotosAPI()
+        viewModel = MarsPhotosViewModel(apiService: mockAPI)
+    }
+    
     // MARK: - Internal Methods
     
     func testVehiclesDataWithEmptyResult() {
-        
-        let mockAPI = MockMarsPhotosAPI()
+        let expectation = expectation(description: "Testing empty state with mock api")
         mockAPI.loadState = .empty
-        
-        let viewModel = MarsPhotosViewModel(apiService: mockAPI)
-        
         viewModel.loadData(for: "curiosity")
+        viewModel.$photos
+            .receive(on: RunLoop.main)
+            .sink { photos in
+                XCTAssertTrue(photos.isEmpty, "Expected photos to be empty, but received some values")
+                expectation.fulfill()
+            }
+            .store(in: &cancellables)
         
-        XCTAssertTrue(viewModel.photos.isEmpty, "Expected photos to be empty, but received some values")
+        waitForExpectations(timeout: 1.0) { error in
+            if let error = error {
+                XCTFail("Expectation failed \(error)")
+            }
+        }
     }
     
     func testVehiclesDataWithErrorResult() {
-        
-        let mockAPI = MockMarsPhotosAPI()
+        let expectation = expectation(description: "Testing error state with mock api")
         mockAPI.loadState = .error
-        
-        let viewModel = MarsPhotosViewModel(apiService: mockAPI)
-        
         viewModel.loadData(for: "curiosity")
+        viewModel.$hasError
+            .receive(on: RunLoop.main)
+            .sink { error in
+                XCTAssertNotNil(error, "Expected to get an error, but received no error")
+                expectation.fulfill()
+            }
+            .store(in: &cancellables)
         
-        XCTAssertTrue(viewModel.hasError, "Expected to get an error, but received no error")
+        waitForExpectations(timeout: 1.0) { error in
+            if let error = error {
+                XCTFail("Expectation failed \(error)")
+            }
+        }
     }
     
     func testVehiclesDataWithSuccess() {
-        
-        let mockAPI = MockMarsPhotosAPI()
+        let expectation = expectation(description: "Testing finish state with mock api")
         mockAPI.loadState = .finished
-        
-        let viewModel = MarsPhotosViewModel(apiService: mockAPI)
-        
         viewModel.loadData(for: "curiosity")
+        viewModel.$photos
+            .receive(on: RunLoop.main)
+            .sink { photos in
+                XCTAssertTrue(photos.isEmpty, "Expected photos data, but received empty")
+                expectation.fulfill()
+            }
+            .store(in: &cancellables)
         
-        XCTAssertTrue(!viewModel.photos.isEmpty, "Expected photos data, but received empty")
+        waitForExpectations(timeout: 1.0) { error in
+            if let error = error {
+                XCTFail("Expectation failed \(error)")
+            }
+        }
     }
 }

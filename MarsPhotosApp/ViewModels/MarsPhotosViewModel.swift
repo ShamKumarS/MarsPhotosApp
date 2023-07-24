@@ -63,7 +63,7 @@ class MarsPhotosViewModel: ObservableObject {
                     DispatchQueue.main.async {
                         self.viewState = .finished
                         self.photos.append(contentsOf: response.photos)
-                        self.totalPages = response.totalPages
+//                        self.totalPages = response.totalPages
                         self.currentPage += 1
                     }
                 case .failure(let error):
@@ -87,7 +87,7 @@ class MarsPhotosViewModel: ObservableObject {
                     DispatchQueue.main.async {
                         self.viewState = .finished
                         self.photos.append(contentsOf: response.photos)
-                        self.totalPages = response.totalPages
+//                        self.totalPages = response.totalPages
                         self.currentPage += 1
                     }
                 case .failure(let error):
