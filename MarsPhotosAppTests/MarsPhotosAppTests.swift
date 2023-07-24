@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import VehiclesApp
+@testable import MarsPhotosApp
 
 final class MarsPhotosAppTests: XCTestCase {
    

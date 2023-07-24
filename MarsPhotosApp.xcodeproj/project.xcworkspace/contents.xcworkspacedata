@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:/Users/brainxiosdev/Development/Projects/Personal Demo Projects/SwiftUI Projects/VehiclesApp/MarsPhotosApp.xcodeproj">
+      location = "self:">
    </FileRef>
 </Workspace>

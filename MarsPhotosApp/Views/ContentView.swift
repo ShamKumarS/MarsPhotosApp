@@ -39,6 +39,9 @@ struct ContentView: View {
                 }
                 .tag(Tabs.spirit)
         }
+        .onReceive(NotificationCenter.default.publisher(for: .receivedNotification)) { _ in
+            print("Received notification in TabView!")
+        }
     }
 }
 
