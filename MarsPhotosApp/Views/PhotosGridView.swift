@@ -58,7 +58,8 @@ struct PhotosGridView: View {
     private var grilView: some View {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), spacing: 16) {
             ForEach(viewModel.photos, id: \.id) { photo in
-                GridImageCell(url: photo.imgSrc)
+//                GridImageCell(url: photo.imgSrc)
+                GridImageCell(imageData: photo.imageData)
                     .frame(width: cellWidth, height: cellHeight)
                     .onAppear {
                         if viewModel.shouldLoadMoreData(photo) && !viewModel.isFetching {
