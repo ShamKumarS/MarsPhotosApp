@@ -25,4 +25,5 @@ enum LocalizedKey: String {
     case landingDate
     case networkErrorMessage
     case loading
+    case noDataAvailable
 }

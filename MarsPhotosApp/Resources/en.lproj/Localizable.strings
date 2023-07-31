@@ -14,3 +14,4 @@
 "landingDate" = "Landing Date: ";
 "networkErrorMessage" = "Something went wrong. Failed to load the data, try again later.";
 "loading" = "Loading";
+"noDataAvailable" = "No Data Available";

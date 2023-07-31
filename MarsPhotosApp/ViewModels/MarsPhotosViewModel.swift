@@ -20,16 +20,21 @@ class MarsPhotosViewModel: ObservableObject {
     @Published var isDropdownVisible = false
     @Published var viewState: VehiclesAppLoadState?
     
+    private let managedContext = CoreDataManager.shared.managedContext
+    
     private var currentPage = 1
     private var totalPages = 1
     private let vehicleService: MarsPhotosServiceProtocol
-    private let dataManager: MarsPhotosDataManager
     private var isInternetAvailable: Bool {
         Reachability.isConnectedToNetwork()
     }
     
     var isLoading: Bool {
         viewState == .loading
+    }
+    
+    var isFinished: Bool {
+        viewState == .finished
     }
     
     var isFetching: Bool {
@@ -40,10 +45,9 @@ class MarsPhotosViewModel: ObservableObject {
     
     init(apiService: MarsPhotosServiceProtocol = MarsPhotosService(client: NetworkClient())) {
         vehicleService = apiService
-        dataManager = MarsPhotosDataManager()
     }
     
-    // MARK: - Instance Methods
+    // MARK: - Internal Methods Methods
     
     func shouldLoadMoreData(_ photo: MarsPhoto) -> Bool {
         photos.last?.id == photo.id
@@ -69,7 +73,7 @@ class MarsPhotosViewModel: ObservableObject {
                         DispatchQueue.main.async {
                             self.viewState = .finished
                             self.photos.append(contentsOf: response.photos)
-//                            self.totalPages = response.totalPages
+                            self.totalPages = response.totalPages
                             self.currentPage += 1
                             self.loadAndSaveImageDataToLocal()
                         }
@@ -83,8 +87,8 @@ class MarsPhotosViewModel: ObservableObject {
                 }
             }
         } else {
-            let savedPhotos = dataManager.loadDataFromUserDefaults()
-            photos = savedPhotos.filter { $0.rover.name.uppercased() == category.uppercased() }
+            /// This approach is for fetching data from core data
+            photos = CoreDataManager.shared.fetchData(for: category)
         }
     }
     
@@ -99,7 +103,7 @@ class MarsPhotosViewModel: ObservableObject {
                         DispatchQueue.main.async {
                             self.viewState = .finished
                             self.photos.append(contentsOf: response.photos)
-//                            self.totalPages = response.totalPages
+                            self.totalPages = response.totalPages
                             self.currentPage += 1
                             self.loadAndSaveImageDataToLocal()
                         }
@@ -113,19 +117,24 @@ class MarsPhotosViewModel: ObservableObject {
                 }
             }
         } else {
-            let savedPhotos = dataManager.loadDataFromUserDefaults()
-            photos = savedPhotos.filter { $0.camera.name.uppercased() == selectedCamera.rawValue.uppercased() }
+            /// This approach is for fetching data from core data
+            photos = CoreDataManager.shared.fetchData(for: selectedCamera, and: category)
         }
     }
     
-    func loadAndSaveImageDataToLocal() {
+    // MARK: - Private Methods
+    
+    private func loadAndSaveImageDataToLocal() {
         for (index, photo) in photos.enumerated() {
             photo.loadImageData { data in
                 DispatchQueue.main.async {
-                    if let data = data {
-                        self.photos[index].imageData = data
-                        self.dataManager.saveDataToUserDefaults(photos: self.photos)
-                    }
+                    guard let data = data,
+                          index < self.photos.count else { return }
+                    
+                    self.photos[index].imageData = data
+                    
+                    /// Save the updated MarsPhoto entity to Core Data
+                    CoreDataManager.shared.saveData(marsPhoto: self.photos[index])
                 }
             }
         }
