@@ -10,6 +10,7 @@ import Foundation
 struct Constants {
     
     static let apiKey = "mGlfgHOAnNbTMwWTqf1t7mK20Nm7eNkz8fWyFjBZ"
+    static let coreDataModelName = "MarsDataModel"
 }
 
 enum Tabs: String {

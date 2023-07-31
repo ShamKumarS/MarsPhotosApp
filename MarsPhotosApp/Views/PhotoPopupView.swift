@@ -16,7 +16,6 @@ struct PhotoPopupView: View {
         VStack(spacing: 16) {
             HStack {
                 Spacer()
-//                GridImageCell(url: vehicle.imgSrc, width: 300, height: 300)
                 GridImageCell(imageData: vehicle.imageData, width: 300, height: 300)
                 Spacer()
             }

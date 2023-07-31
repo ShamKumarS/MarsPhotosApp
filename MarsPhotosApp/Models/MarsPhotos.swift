@@ -8,6 +8,7 @@
 import Foundation
 
 struct MarsPhotos: Codable {
+    
     let photos: [MarsPhoto]
     let totalPages: Int = 10
     
@@ -21,6 +22,7 @@ struct MarsPhotos: Codable {
 }
 
 struct MarsPhoto: Codable, Identifiable {
+    
     let id: Int
     let camera: Camera
     let imgSrc: String
@@ -34,6 +36,15 @@ struct MarsPhoto: Codable, Identifiable {
         case earthDate = "earth_date"
         case rover
     }
+    
+    init(entity: MarsPhotoEntity) {
+        id = Int(entity.id)
+        camera = Camera(entity: entity.wrappedCamera)
+        imgSrc = entity.wrappedImageURL
+        imageData = entity.imageData
+        earthDate = entity.wrappedEarthDate
+        rover = Rover(entity: entity.wrappedRover)
+    }
 }
 
 extension MarsPhoto {
@@ -41,12 +52,10 @@ extension MarsPhoto {
     func loadImageData(completion: @escaping (Data?) -> Void) {
         guard let imageURL = URL(string: imgSrc) else {
             completion(nil)
-            print("Invalid URL")
             return
         }
         
-        URLSession.shared.dataTask(with: imageURL) { data, response, error in
-            print("Image Data")
+        URLSession.shared.dataTask(with: imageURL) { data, _, _ in
             completion(data)
         }
         .resume()
@@ -54,6 +63,7 @@ extension MarsPhoto {
 }
 
 struct Camera: Codable {
+    
     let id: Int
     let name: String
     let roverID: Int
@@ -64,9 +74,17 @@ struct Camera: Codable {
         case roverID = "rover_id"
         case fullName = "full_name"
     }
+    
+    init(entity: CameraEntity) {
+        id = Int(entity.id)
+        name = entity.wrappedName
+        roverID = Int(entity.roverID)
+        fullName = entity.wrappedFullName
+    }
 }
 
 struct Rover: Codable {
+    
     let id: Int
     let name, landingDate, launchDate: String
     
@@ -75,19 +93,11 @@ struct Rover: Codable {
         case landingDate = "landing_date"
         case launchDate = "launch_date"
     }
-}
-
-// This is for storing data in User Default Manager
-struct Photo: Codable, Identifiable {
-    let id: Int
-    var imageData: Data?
-    let cameraName: String
-    let earthDate: String
-    let roverName: String
-    let landingDate: String
-    let launchDate: String
     
-    enum CodingKeys: String, CodingKey {
-        case id, imageData, cameraName, earthDate, roverName, landingDate, launchDate
+    init(entity: RoverEntity) {
+        id = Int(entity.id)
+        name = entity.wrappedName
+        landingDate = entity.wrappedLandingDate
+        launchDate = entity.wrappedLaunchDate
     }
 }

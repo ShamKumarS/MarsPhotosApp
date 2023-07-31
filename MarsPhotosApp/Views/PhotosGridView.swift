@@ -20,6 +20,10 @@ struct PhotosGridView: View {
         ZStack {
             if viewModel.isLoading {
                 ProgressView(LocalizedKey.loading.string)
+            } else if viewModel.photos.isEmpty && viewModel.isFinished {
+                Text(LocalizedKey.noDataAvailable.string)
+                    .font(.headline)
+                    .foregroundColor(.gray)
             } else {
                 ScrollView {
                     grilView
@@ -44,7 +48,8 @@ struct PhotosGridView: View {
             viewModel.reset()
         }
         .onTapGesture {
-            viewModel.reset()
+            viewModel.isPopupVisible = false
+            viewModel.isDropdownVisible = false
         }
         .alert(isPresented: $viewModel.hasError) {
             Alert(title: Text(LocalizedKey.alert.string),
@@ -58,7 +63,6 @@ struct PhotosGridView: View {
     private var grilView: some View {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), spacing: 16) {
             ForEach(viewModel.photos, id: \.id) { photo in
-//                GridImageCell(url: photo.imgSrc)
                 GridImageCell(imageData: photo.imageData)
                     .frame(width: cellWidth, height: cellHeight)
                     .onAppear {
