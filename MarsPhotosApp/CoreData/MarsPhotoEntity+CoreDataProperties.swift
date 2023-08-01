@@ -2,7 +2,7 @@
 //  MarsPhotoEntity+CoreDataProperties.swift
 //  MarsPhotosApp
 //
-//  Created by BrainX IOS Dev on 7/27/23.
+//  Created by BrainX IOS Dev on 8/1/23.
 //
 //
 
@@ -10,11 +10,11 @@ import CoreData
 import Foundation
 
 extension MarsPhotoEntity {
-
+    
     @nonobjc public class func fetchRequest() -> NSFetchRequest<MarsPhotoEntity> {
         return NSFetchRequest<MarsPhotoEntity>(entityName: "MarsPhotoEntity")
     }
-
+    
     @NSManaged public var earthDate: String?
     @NSManaged public var id: Int32
     @NSManaged public var imageData: Data?
@@ -26,7 +26,7 @@ extension MarsPhotoEntity {
 // MARK: - MarsPhotoEntity Extentions for wrapped value
 
 extension MarsPhotoEntity : Identifiable {
-
+    
     public var wrappedEarthDate: String {
         earthDate ?? ""
     }

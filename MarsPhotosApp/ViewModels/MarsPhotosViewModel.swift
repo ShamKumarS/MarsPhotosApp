@@ -89,6 +89,7 @@ class MarsPhotosViewModel: ObservableObject {
         } else {
             /// This approach is for fetching data from core data
             photos = CoreDataManager.shared.fetchData(for: category)
+            viewState = .finished
         }
     }
     
@@ -119,6 +120,7 @@ class MarsPhotosViewModel: ObservableObject {
         } else {
             /// This approach is for fetching data from core data
             photos = CoreDataManager.shared.fetchData(for: selectedCamera, and: category)
+            viewState = .finished
         }
     }
     
