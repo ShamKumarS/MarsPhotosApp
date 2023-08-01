@@ -1,8 +1,11 @@
 # Mars Photo App
 
-![App Screenshot](screenshot.png)
-
 Welcome to the Mars Photo App, an iOS application that allows you to explore stunning photos captured by rovers on Mars. This README file provides an overview of the app, its features, and the skills showcased in its development.
+
+## Video Demo
+
+[![Mars Photo App Demo](https://img.youtube.com/vi/VIDEO_ID/0.jpg)]([https://www.youtube.com/watch?v=VIDEO_ID](https://www.youtube.com/watch?v=c5nNtgfzxRE))
+
 
 ## Features
 
@@ -46,7 +49,7 @@ Contributions to the Mars Photo App are welcome! If you find any bugs, have feat
 
 ## Credits
 
-The Mars Photo App is developed by [Sham Kumar]. If you have any questions or need assistance, you can reach out to me at [ksham1999@gmail.com].
+The Mars Photo App is developed by *Sham Kumar*. If you have any questions or need assistance, you can reach out to me at ksham1999@gmail.com.
 
 ## License
 
