@@ -5,19 +5,21 @@
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="roverID" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="marsphotos" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MarsPhotoEntity" inverseName="camera" inverseEntity="MarsPhotoEntity"/>
     </entity>
     <entity name="MarsPhotoEntity" representedClassName="MarsPhotoEntity" syncable="YES">
         <attribute name="earthDate" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="imageData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
         <attribute name="imageURL" optional="YES" attributeType="String"/>
-        <relationship name="camera" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CameraEntity"/>
-        <relationship name="rover" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RoverEntity"/>
+        <relationship name="camera" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CameraEntity" inverseName="marsphotos" inverseEntity="CameraEntity"/>
+        <relationship name="rover" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RoverEntity" inverseName="marsphotos" inverseEntity="RoverEntity"/>
     </entity>
     <entity name="RoverEntity" representedClassName="RoverEntity" syncable="YES">
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="landingDate" optional="YES" attributeType="String"/>
         <attribute name="launchDate" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="marsphotos" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MarsPhotoEntity" inverseName="rover" inverseEntity="MarsPhotoEntity"/>
     </entity>
 </model>
