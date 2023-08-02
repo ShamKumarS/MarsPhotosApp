@@ -21,8 +21,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window?.overrideUserInterfaceStyle = .light
 //        FirebaseApp.configure()
-//        Messaging.messaging().delegate = self
         setupRemoteNotification()
+        
+        if let _ = launchOptions?[.remoteNotification] as? [String: AnyObject] {
+            /// Launching from a notification provides an opportunity to handle the notification payload and take appropriate actions based on the notification content.
+        }
+        
         return true
     }
 
@@ -48,36 +52,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 }
 
-// MARK: - MessagingDelegate Methods
-
-extension AppDelegate: MessagingDelegate {
-
-    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        guard let token = fcmToken else { return }
-        UserDefaultManager.deviceToken = token
-    }
-}
-
 // MARK: - UNUserNotificationCenterDelegate Methods
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        /// Called when the app successfully registers for remote notifications. The deviceToken parameter contains the device-specific token that the app will use to receive remote notifications from the server.
+        let tokenString = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+        UserDefaultManager.deviceToken = tokenString
+    }
+    
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        /// Handle app failure to register for remote notifications due to an error
+        print(error.localizedDescription)
+    }
 
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        UserDefaultManager.hasNotificationSeen = false
-        NotificationCenter.default.post(name: .updateNotificationIcon, object: nil)
-        completionHandler([.banner, .badge, .sound])
+        /// Notification is about to be presented to the user while the app is running in the foreground
+        /// Customize the presentation of the notification
     }
 
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        /// Called when the user taps on a notification while the app is running or in the background. It is used to handle user interactions with the notification.
         NotificationCenter.default.post(name: .receivedNotification, object: nil)
-        completionHandler()
     }
 
     func application(_ application: UIApplication,
                      didReceiveRemoteNotification userInfo: [AnyHashable: Any],
                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        print(userInfo)
+        /// Called when the app receives a remote notification while it is running in the foreground or background. The userInfo parameter contains the payload of the notification.
         NotificationCenter.default.post(name: .receivedNotification, object: nil)
-        completionHandler(UIBackgroundFetchResult.newData)
     }
 }

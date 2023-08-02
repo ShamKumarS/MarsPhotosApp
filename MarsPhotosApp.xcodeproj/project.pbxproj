@@ -8,6 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		2F539416D985F9B354F51B42 /* Pods_MarsPhotosAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDC6C2D6A577FAB56FA4A028 /* Pods_MarsPhotosAppTests.framework */; };
+		4328A12A2A7A45E6002171C4 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432D72D02A778C8000D7D04B /* CoreDataManager.swift */; };
+		4328A12B2A7A45E7002171C4 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432D72D02A778C8000D7D04B /* CoreDataManager.swift */; };
+		4328A12C2A7A4629002171C4 /* RoverEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F49ACB2A78DE38000FEAFA /* RoverEntity+CoreDataProperties.swift */; };
+		4328A12D2A7A4629002171C4 /* MarsPhotoEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F49ACC2A78DE38000FEAFA /* MarsPhotoEntity+CoreDataClass.swift */; };
+		4328A12E2A7A4629002171C4 /* CameraEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F49ACE2A78DE38000FEAFA /* CameraEntity+CoreDataClass.swift */; };
+		4328A12F2A7A4629002171C4 /* CameraEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F49ACF2A78DE38000FEAFA /* CameraEntity+CoreDataProperties.swift */; };
+		4328A1302A7A4629002171C4 /* RoverEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F49ACA2A78DE38000FEAFA /* RoverEntity+CoreDataClass.swift */; };
+		4328A1312A7A4629002171C4 /* MarsPhotoEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F49ACD2A78DE38000FEAFA /* MarsPhotoEntity+CoreDataProperties.swift */; };
+		4328A1322A7A462A002171C4 /* RoverEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F49ACB2A78DE38000FEAFA /* RoverEntity+CoreDataProperties.swift */; };
+		4328A1332A7A462A002171C4 /* MarsPhotoEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F49ACC2A78DE38000FEAFA /* MarsPhotoEntity+CoreDataClass.swift */; };
+		4328A1342A7A462A002171C4 /* CameraEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F49ACE2A78DE38000FEAFA /* CameraEntity+CoreDataClass.swift */; };
+		4328A1352A7A462A002171C4 /* CameraEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F49ACF2A78DE38000FEAFA /* CameraEntity+CoreDataProperties.swift */; };
+		4328A1362A7A462A002171C4 /* RoverEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F49ACA2A78DE38000FEAFA /* RoverEntity+CoreDataClass.swift */; };
+		4328A1372A7A462A002171C4 /* MarsPhotoEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F49ACD2A78DE38000FEAFA /* MarsPhotoEntity+CoreDataProperties.swift */; };
+		4328A1382A7A4644002171C4 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EF27912A6F959800702B45 /* Reachability.swift */; };
+		4328A1392A7A4644002171C4 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EF27912A6F959800702B45 /* Reachability.swift */; };
 		432D72D12A778C8000D7D04B /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432D72D02A778C8000D7D04B /* CoreDataManager.swift */; };
 		4341F36F2A710A9900E53CA6 /* MarsDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4341F36D2A710A9900E53CA6 /* MarsDataModel.xcdatamodeld */; };
 		434BEF6F2A690DBC006138A9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 434BEF712A690DBC006138A9 /* Localizable.strings */; };
@@ -633,14 +649,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4328A12E2A7A4629002171C4 /* CameraEntity+CoreDataClass.swift in Sources */,
+				4328A12F2A7A4629002171C4 /* CameraEntity+CoreDataProperties.swift in Sources */,
+				4328A1382A7A4644002171C4 /* Reachability.swift in Sources */,
 				434FE9B92A6677E300DF0936 /* MarsPhotos.swift in Sources */,
 				43C3078D2A6A4DBF000284F4 /* MockMarsPhotosAPI.swift in Sources */,
 				434FE9AF2A6677A700DF0936 /* MarsPhotosService.swift in Sources */,
 				434FE9902A66775100DF0936 /* MarsPhotosAppTests.swift in Sources */,
 				434FE9B42A6677C700DF0936 /* Constants.swift in Sources */,
 				4377E2FB2A6803CF00B46F6B /* DevelopmentEnvironment.swift in Sources */,
+				4328A12A2A7A45E6002171C4 /* CoreDataManager.swift in Sources */,
 				4377E2F72A6803AA00B46F6B /* Endpoint.swift in Sources */,
+				4328A12D2A7A4629002171C4 /* MarsPhotoEntity+CoreDataClass.swift in Sources */,
+				4328A1302A7A4629002171C4 /* RoverEntity+CoreDataClass.swift in Sources */,
+				4328A1312A7A4629002171C4 /* MarsPhotoEntity+CoreDataProperties.swift in Sources */,
 				434FE9BE2A6677F100DF0936 /* MarsPhotosViewModel.swift in Sources */,
+				4328A12C2A7A4629002171C4 /* RoverEntity+CoreDataProperties.swift in Sources */,
 				4377E2FF2A68149600B46F6B /* NetworkClient.swift in Sources */,
 				439E5ABA2A6A784900A3867D /* NetworkError.swift in Sources */,
 				4377E3042A6814FF00B46F6B /* BaseService.swift in Sources */,
@@ -651,14 +675,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4328A1342A7A462A002171C4 /* CameraEntity+CoreDataClass.swift in Sources */,
+				4328A1352A7A462A002171C4 /* CameraEntity+CoreDataProperties.swift in Sources */,
+				4328A1392A7A4644002171C4 /* Reachability.swift in Sources */,
 				4377E2F82A6803AA00B46F6B /* Endpoint.swift in Sources */,
 				434FE9B02A6677A700DF0936 /* MarsPhotosService.swift in Sources */,
 				434FE9BF2A6677F100DF0936 /* MarsPhotosViewModel.swift in Sources */,
 				434FE9BA2A6677E300DF0936 /* MarsPhotos.swift in Sources */,
 				434FE99A2A66775100DF0936 /* MarsPhotosAppUITests.swift in Sources */,
 				4377E3002A68149600B46F6B /* NetworkClient.swift in Sources */,
+				4328A12B2A7A45E7002171C4 /* CoreDataManager.swift in Sources */,
 				434FE99C2A66775100DF0936 /* MarsPhotosAppUITestsLaunchTests.swift in Sources */,
+				4328A1332A7A462A002171C4 /* MarsPhotoEntity+CoreDataClass.swift in Sources */,
+				4328A1362A7A462A002171C4 /* RoverEntity+CoreDataClass.swift in Sources */,
+				4328A1372A7A462A002171C4 /* MarsPhotoEntity+CoreDataProperties.swift in Sources */,
 				434FE9B52A6677C700DF0936 /* Constants.swift in Sources */,
+				4328A1322A7A462A002171C4 /* RoverEntity+CoreDataProperties.swift in Sources */,
 				4377E3052A6814FF00B46F6B /* BaseService.swift in Sources */,
 				439E5ABB2A6A784A00A3867D /* NetworkError.swift in Sources */,
 				4377E2FC2A6803CF00B46F6B /* DevelopmentEnvironment.swift in Sources */,

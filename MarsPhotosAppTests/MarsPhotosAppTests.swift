@@ -19,10 +19,16 @@ final class MarsPhotosAppTests: XCTestCase {
     
     // MARK: - Overridden Methods
     
-    override func setUp() {
-        super.setUp()
+    override func setUpWithError() throws {
+        /// Put setup code here. This method is called before the invocation of each test method in the class.
         mockAPI = MockMarsPhotosAPI()
         viewModel = MarsPhotosViewModel(apiService: mockAPI)
+    }
+    
+    override func tearDownWithError() throws {
+        /// Put teardown code here. This method is called after the invocation of each test method in the class.
+        mockAPI = nil
+        viewModel = nil
     }
     
     // MARK: - Internal Methods
