@@ -10,5 +10,4 @@ import SwiftUI
 class UserDefaultManager {
     
     @AppStorage("device_token") static var deviceToken: String = ""
-    @AppStorage("has_notification_seen") static var hasNotificationSeen: Bool = true
 }

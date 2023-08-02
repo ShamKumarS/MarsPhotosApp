@@ -10,7 +10,7 @@ import Foundation
 struct MarsPhotos: Codable {
     
     let photos: [MarsPhoto]
-    let totalPages: Int = 10
+    let totalPages: Int = 100 // as the api does not contain total pages so for it is used as a static
     
     init(photos: [MarsPhoto]) {
         self.photos = photos
