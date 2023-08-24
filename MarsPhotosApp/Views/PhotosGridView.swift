@@ -42,7 +42,13 @@ struct PhotosGridView: View {
         .overlay(popupView)
         .onAppear {
             viewModel.reset()
-            viewModel.loadData(for: rover.rawValue)
+            if viewModel.usClosureApproach {
+                viewModel.loadData(for: rover.rawValue)
+            } else  {
+                Task {
+                    await viewModel.loadData(for: rover.rawValue)
+                }
+            }
         }
         .onDisappear {
             viewModel.reset()
@@ -67,7 +73,13 @@ struct PhotosGridView: View {
                     .frame(width: cellWidth, height: cellHeight)
                     .onAppear {
                         if viewModel.shouldLoadMoreData(photo) && !viewModel.isFetching {
-                            viewModel.loadData(for: rover.rawValue)
+                            if viewModel.usClosureApproach {
+                                viewModel.loadData(for: rover.rawValue)
+                            } else  {
+                                Task {
+                                    await viewModel.loadData(for: rover.rawValue)
+                                }
+                            }
                         }
                     }
                     .onTapGesture {
@@ -85,9 +97,21 @@ struct PhotosGridView: View {
                     viewModel.selectedCamera = camera
                     viewModel.reset()
                     if camera != .none {
-                        viewModel.loadFilteredData(for: rover.rawValue)
+                        if viewModel.usClosureApproach {
+                            viewModel.loadFilteredData(for: rover.rawValue)
+                        } else  {
+                            Task {
+                                await viewModel.loadFilteredData(for: rover.rawValue)
+                            }
+                        }
                     } else {
-                        viewModel.loadData(for: rover.rawValue)
+                        if viewModel.usClosureApproach {
+                            viewModel.loadData(for: rover.rawValue)
+                        } else  {
+                            Task {
+                                await viewModel.loadData(for: rover.rawValue)
+                            }
+                        }
                     }
                 }) {
                     HStack {

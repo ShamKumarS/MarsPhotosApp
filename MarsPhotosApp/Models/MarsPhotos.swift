@@ -49,6 +49,7 @@ struct MarsPhoto: Codable, Identifiable {
 
 extension MarsPhoto {
     
+    /// Closure approach
     func loadImageData(completion: @escaping (Data?) -> Void) {
         guard let imageURL = URL(string: imgSrc) else {
             completion(nil)
@@ -59,6 +60,21 @@ extension MarsPhoto {
             completion(data)
         }
         .resume()
+    }
+    
+    /// Async/Await Approach
+    func loadImageData() async throws -> Data? {
+        guard let imageURL = URL(string: imgSrc) else {
+            throw NetworkError.invalidUrl
+        }
+        
+        let (data, response) = try await URLSession.shared.data(from: imageURL)
+        
+        guard let httpResonpse = response as? HTTPURLResponse,
+              httpResonpse.statusCode == 200 else {
+            throw NetworkError.invalidData
+        }
+        return data
     }
 }
 
